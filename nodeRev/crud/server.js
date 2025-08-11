@@ -19,7 +19,7 @@ app.get("/produtos/:id",(req,res)=>{
     const retorno = produto.find(p=> p.id === Ids)
 
     if(!retorno){
-        return res.status(404).json({error:"Erro id nao localizado"})
+        return res.status(400).json({error:"Erro id nao localizado"})
     }
 
     res.json(retorno)
@@ -42,6 +42,20 @@ app.post("/produtos", (req,res)=>{
 
 })
 
+app.put("/produtos/:id",(req,res)=>{
+    const {id} = req.params
+    const {nome, preco} = req.body
+
+    const index = produto.findIndex(p=> p.id === parseInt(id))
+
+    if(index === -1){
+        return res.status(404).json({error:"Erro do cliente"})
+    }
+
+    produto[index] = {id: parseInt(id),nome,preco}
+    res.json({resposta:"produto atualizado com sucesso", produto:produto[index]})
+
+})
 
 
 
